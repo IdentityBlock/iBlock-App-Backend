@@ -7,7 +7,10 @@ const web3 = new Web3(process.env.wsUrl);
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+    let contractAbi = require('../bin/User.abi.json')
+      res.json({
+          'data': contractAbi
+      });
 });
 
 router.post('/', (req, res)=>{
