@@ -13,29 +13,42 @@ router.get('/', function(req, res, next) {
       });
 });
 
-router.post('/', (req, res)=>{
-  let contractAbi = require('../bin/User.abi.json');
-  let ethereumAddress = req.body.ethaddress;
-  console.log(req.body);
-  let userContract = new web3.eth.Contract(contractAbi);
+router.post('/', async (req, res)=>{
+    let contractAbi = require('../bin/User.abi.json');
+    console.log(req.body);
+    let userContract = new web3.eth.Contract(contractAbi);
 
-  userContract.deploy({
-    data: process.env.contractByteCode,
-    arguments: [req.body.name, req.body.email, req.body.dob, req.body.country, req.body.mobile, req.body.gender]
-  })
-      .send({
-        from: ethereumAddress,
+    const fundingAccount = web3.eth.accounts.privateKeyToAccount(process.env.fundingAccount);
+
+    const account = web3.eth.accounts.create();
+
+    await web3.eth.sendTransaction({
+        from: fundingAccount.address,
+        to: account.address,
+        value: 1000000000000000000
+    });
+
+    const transaction = userContract.deploy({
+        data: process.env.contractByteCode,
+        arguments: [req.body.name, req.body.email, req.body.dob, req.body.country, req.body.mobile, req.body.gender]
+    });
+
+    const options = {
+        data: transaction.encodeABI(),
         gas: 1500000,
         gasPrice: '300000000000'
-      })
-      .then((contractInstance) =>{
-        res.status(200).json({
-          "contract-address": contractInstance.options.address
-        });
-      })
-      .catch((err)=>{
-        console.log(err);
-      });
+    };
+
+    const signed  = await web3.eth.accounts.signTransaction(options, account.privateKey);
+    const receipt = await web3.eth.sendSignedTransaction(signed.rawTransaction);
+
+    return res.status(200).json(
+        {
+            "private-key": account.privateKey,
+            "contract-address": receipt.contractAddress
+        }
+    );
+
 
 });
 
