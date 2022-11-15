@@ -6,6 +6,7 @@ require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/contract');
+var transactRouter = require('./routes/transact');
 
 var app = express();
 
@@ -16,5 +17,6 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/contract', usersRouter);
+app.use('/transact', transactRouter);
 
 module.exports = app;
