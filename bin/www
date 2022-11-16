@@ -25,11 +25,11 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port, process.env.server || "localhost", () => {
-  console.log("listening on port: " + port);
+server.listen(port, process.env.server || "localhost", ()=>{
+  console.log(`listening on : ${process.env.server || "localhost"}:${port}`)
 });
-server.on("error", onError);
-server.on("listening", onListening);
+server.on('error', onError);
+server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
