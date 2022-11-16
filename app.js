@@ -9,6 +9,9 @@ var usersRouter = require('./routes/contract');
 var transactRouter = require('./routes/transact');
 
 var app = express();
+var cors = require('cors');
+
+app.use(cors())
 
 app.use(logger('dev'));
 app.use(express.json());
