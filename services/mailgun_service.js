@@ -14,13 +14,14 @@ class MailgunService{
 
     }
 
-    async send(to, subject, text="", html=""){
+    async send(to, subject, text="", html="", attachments=[]){
         let mailOptions = {
             from: 'iBlock <mailgun@iblockapp.me>',
             to: to,
             subject: subject,
             text: text,
-            html: html
+            html: html,
+            attachments: attachments
         };
         return await this.transporter.sendMail(mailOptions);
     }

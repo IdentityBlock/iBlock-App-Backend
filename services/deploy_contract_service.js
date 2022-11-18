@@ -4,6 +4,8 @@ const web3 = new Web3(process.env.wsUrl);
 const contract = require("../bin/User.json");
 
 const MailGun = require('./mailgun_service');
+const fs = require("fs");
+const path = require("path");
 const mailgun = new MailGun();
 
 process.on("message", async (data) => {
@@ -47,11 +49,15 @@ process.on("message", async (data) => {
 
 
         const receipt = await web3.eth.sendSignedTransaction(signed.rawTransaction);
+        let template = fs.readFileSync(path.join(__dirname,'../../mail_templates/success.html'));
+        let html = template.toString();
+        html = html.replace('[0xSAMPLE_CONTRACT]', receipt.contractAddress);
 
         await mailgun.send(
             data.user.email,
-            'iBlock: Your contract has been deployed',
-            'your contract address is :'+ receipt.contractAddress
+            'noreply',
+            '',
+            html
         );
     }
     catch (e){
