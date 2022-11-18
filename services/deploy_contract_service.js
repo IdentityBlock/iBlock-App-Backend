@@ -49,7 +49,7 @@ process.on("message", async (data) => {
 
 
         const receipt = await web3.eth.sendSignedTransaction(signed.rawTransaction);
-        let template = fs.readFileSync(path.join(__dirname,'../../mail_templates/success.html'));
+        let template = fs.readFileSync(path.join(__dirname,'../mail_templates/success.html'));
         let html = template.toString();
         html = html.replace('[0xSAMPLE_CONTRACT]', receipt.contractAddress);
 
@@ -62,10 +62,13 @@ process.on("message", async (data) => {
     }
     catch (e){
         console.error(e);
+        let template = fs.readFileSync(path.join(__dirname,'../mail_templates/fail.html'));
+        let html = template.toString();
         await mailgun.send(
             data.user.email,
-            'iBlock: Your contract hasn\'t been deployed',
-            'Due some internal issue we failed to process your request!. Please try again later'
+            'noreply',
+            '',
+            html
         );
     }
 

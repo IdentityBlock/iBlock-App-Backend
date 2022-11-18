@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1668745350066" clover="3.2.0">
-  <project timestamp="1668745350066" name="All files">
+<coverage generated="1668746698539" clover="3.2.0">
+  <project timestamp="1668746698539" name="All files">
     <metrics statements="30" coveredstatements="30" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2" elements="34" coveredelements="34" complexity="0" loc="30" ncloc="30" packages="1" files="1" classes="1"/>
     <file name="mailgun_service.js" path="D:\Projects\sem5\iBlock-App-Backend\services\mailgun_service.js">
       <metrics statements="30" coveredstatements="30" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
