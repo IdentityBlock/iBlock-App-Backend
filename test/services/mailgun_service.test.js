@@ -7,8 +7,7 @@ let mailgun = new Mailgun();
 jest.setTimeout(30 * 1000);
 
 test('Testing sending mail with mailgun', async () => {
-    let receipt = await mailgun.send("ishadijaz@gmail.com", "TestMail", "Hello World!");
-    console.log(receipt);
+    let receipt = await mailgun.send("mailer.iblock@gmail.com", "TestMail", "Hello World!");
     expect(receipt["status"]).toBe(200);
 });
 
@@ -17,7 +16,6 @@ test('Test sending mail with html templates', async ()=>{
     let html = template.toString();
     html = html.replace('[0xSAMPLE_CONTRACT]', '0xasdfghjkllllllll');
 
-    let receipt = await mailgun.send("ishadijaz@gmail.com", "noreply", "", html);
-    console.log(receipt);
+    let receipt = await mailgun.send("mailer.iblock@gmail.com", "noreply", "", html);
     expect(receipt["status"]).toBe(200);
 });
